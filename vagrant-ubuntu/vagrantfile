@@ -32,4 +32,8 @@ Vagrant.configure("2") do |config|
   #   sudo reboot
   # SHELL2
   config.vm.provision "shell", path: "../bash/setup-humble.sh"
+
+
+  config.vm.provision "shell", path: "../bash/setup-workspace.sh"
+
 end
