@@ -1,6 +1,6 @@
 !#/bin/bash
 
-workspacename=x2_ws
+workspacename=mrvn2_ws
 rosdistribution=humble
 
 mkdir -p ~/$workspacename/src
@@ -19,11 +19,9 @@ git clone https://github.com/ros/ros_tutorials.git -b $rosdistribution
 cd ~/$workspacename
 rosdep install -i --from-path src --rosdistro $rosdistribution -y
 
-
 cd ~/$workspacename
 colcon build
 
 source install/local_setup.bash
-
 
 echo ros2 run turtlesim turtlesim_node
