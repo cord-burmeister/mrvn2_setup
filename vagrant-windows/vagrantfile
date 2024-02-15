@@ -1,4 +1,7 @@
 Vagrant.configure("2") do |config|
     config.vm.box = "gusztavvargadr/windows-10"
+    # This is the default network from Hyper-V on a non server Windows Version with NAT
+    config.vm.network "public_network", bridge: "Default Network"
+    config.vm.synced_folder ".", "/vagrant", disabled: true
   end
   
