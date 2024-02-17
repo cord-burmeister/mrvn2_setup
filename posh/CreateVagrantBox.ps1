@@ -29,11 +29,11 @@ $MyJsonVariable = @"
   "provider": "hyperv"
 }
 "@
-$prefixVM = "vagrant-windows_default"
+$prefixVM = "windows-box-vagrant_default"
 
 if ([string]::IsNullOrEmpty($VmName))
 {
-  $a =  Get-VM |  Where-Object {$_.Name -match "vagrant-windows_default"}
+  $a =  Get-VM |  Where-Object {$_.Name -match "$prefixVM"}
   if ($a.Count -eq 1)
   {
     $VmName = $a[0].Name
