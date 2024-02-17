@@ -1,0 +1,33 @@
+Vagrant.configure("2") do |config|
+    config.vm.box = "marvin/ros2humble"
+    config.vm.box_url = "file:///c://work/ros2humble/ros2humble.box"
+
+    # Configure the remote powershell ports
+    config.vm.network :forwarded_port, guest: 3389, host: 3389
+    config.vm.network :forwarded_port, guest: 5985, host: 5985, id: "winrm", auto_correct: true
+
+    # This is the default network from Hyper-V on a non server Windows Version with NAT
+    config.vm.network "public_network", bridge: "Default Switch"
+
+    # Disable shared folder, because we do not need it
+    config.vm.synced_folder ".", "/vagrant", disabled: true
+
+    # Configure the hardware parameter
+    config.vm.provider "hyperv" do |vm|
+      vm.memory = 4096
+      vm.maxmemory = 8192
+      vm.cpus = 2
+    end
+
+    # First upgrade the chocolatey installation 
+    config.vm.provision "shell", inline: <<-SHELL1
+    choco upgrade chocolatey -y
+    SHELL1
+
+    # Install or upgrade git installation 
+    config.vm.provision "shell", inline: <<-SHELL2
+    choco upgrade git -y
+    SHELL2
+
+  end
+  
