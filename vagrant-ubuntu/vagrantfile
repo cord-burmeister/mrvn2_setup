@@ -16,12 +16,10 @@ Vagrant.configure("2") do |config|
     sudo apt remove --autoremove gnome-initial-setup -y
     # Update 
     sudo apt-get update -y
-    # Display kernel 
+    # Perform a full upgrade
     sudo apt-get full-upgrade -y
-
     # Display kernel 
     uname -a
-
   SHELL1
 
   # config.vm.provision "shell", reboot: true, inline: <<-SHELL2
@@ -31,9 +29,9 @@ Vagrant.configure("2") do |config|
   #   sudo apt install linux-image-generic-hwe-22.04 -y
   #   sudo reboot
   # SHELL2
+
+  # External scribt to install ROS distribution
   config.vm.provision "shell", path: "../bash/setup-humble.sh"
-
-
+  # Setup the workspace
   config.vm.provision "shell", path: "../bash/setup-workspace.sh"
-
 end
