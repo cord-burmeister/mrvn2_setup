@@ -7,9 +7,8 @@
 # environmetn
 #.Parameter BoxName
 #    This is the name of the vagrant box which will be generated
-#.Parameter VmName
-#    This is the name of the Hyper-V source virtual machine, when set.
-#    Otherwise it will be using the VMs which starts with  'vagrant-windows_default'
+#.Parameter PrefixVM
+#    This is the prefix of the Hyper-V source virtual machine, when set.
 #.Parameter WorkingFolder
 #    This is the path to the folder in which the box will be created
 #    and compressed intermediate files. 
@@ -20,34 +19,34 @@
 
 param (	
   [string] $BoxName = "ros2humble",
-  [string] $VmName = "",
+  [string] $PrefixVM = "windows-box-vagrant",
   [string] $WorkingFolder = "c:\work"
   )
+
+
+
 
 $MyJsonVariable = @"
 {
   "provider": "hyperv"
 }
 "@
-$prefixVM = "vagrant-windows_default"
 
-if ([string]::IsNullOrEmpty($VmName))
+$VmName = ""
+
+$a =  Get-VM |  Where-Object {$_.Name -match "$PrefixVM"}
+if ($a.Count -eq 1)
 {
-  $a =  Get-VM |  Where-Object {$_.Name -match "vagrant-windows_default"}
-  if ($a.Count -eq 1)
-  {
-    $VmName = $a[0].Name
-  }
-  else {
-    Write-Error ("ERROR: The prefix $prefixVM is not unique. Please specify the name with the VmName parameter.")
-    Exit 1
-  }
+  $VmName = $a[0].Name
+}
+else {
+  Write-Error ("ERROR: The prefix $PrefixVM is not unique. Please specify the name with the VmName parameter.")
+  Exit 1
 }
 
 $FullBoxName = "marvin/$BoxName"
 
 Write-Host "Generate the box with name $FullBoxName from VMs $VmName in folder $WorkingFolder"
-
 
 if (Test-Path $WorkingFolder\$VmName -PathType Container)
 {

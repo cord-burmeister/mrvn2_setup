@@ -39,8 +39,8 @@ sudo apt install ros-dev-tools -y
 # Possible values are: setup.bash, setup.sh, setup.zsh
 source /opt/ros/humble/setup.bash
 
- # Add sourcing to your shell startup script
-echo "source /opt/ros/humble/setup.bash" >> ~/.bashrc
+ # Add sourcing to your shell startup script
+echo "source /opt/ros/humble/setup.bash" >> /home/vagrant/.bashrc
 
 # Installing VS Code 
 # sudo snap install --classic code -y

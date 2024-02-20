@@ -31,13 +31,26 @@ Vagrant.configure("2") do |config|
     # Write-Host "Setting the Remote Powershell Firewall finished"
     # SHELL1
 
+     # Very first thing to do is setting the new network profile
+     # in the virtual machine to private, so that the remote powershell
+     # will work correctly after the reboot
+      config.vm.provision "shell", inline: <<-SHELL
+      Write-Host "Set Network to Private"
+      $profiles = Get-NetConnectionProfile
+
+      foreach ($profile in $profiles) {
+         Write-Host "Setting proile  $profile.InterfaceAlias to Private"
+         Set-NetConnectionProfile -InterfaceAlias $profile.InterfaceAlias -NetworkCategory Private
+      }
+      Write-Host "Set Network to Privatedone"
+    SHELL
 
     # # Before doing anything, ensure that Windows Updates are installed
-    # config.vm.provision "shell", reboot: true, inline: <<-SHELL0
-    # Install-Module PSWindowsUpdate -Force
-    # Get-WindowsUpdate -ForceDownload
-    # Install-WindowsUpdate -ForceInstall
-    # SHELL0
+    config.vm.provision "shell", reboot: true, inline: <<-SHELL0
+    Install-Module PSWindowsUpdate -Force
+    Get-WindowsUpdate -ForceDownload
+    Install-WindowsUpdate -ForceInstall
+    SHELL0
 
    # Install or upgrade git installation 
    config.vm.provision "shell", inline: <<-SHELL

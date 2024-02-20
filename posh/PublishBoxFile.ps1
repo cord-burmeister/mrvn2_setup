@@ -5,35 +5,39 @@
 #	The Virtual machine configuration in the Hyper-V Manager 
 # requires some post processing to be used as box in the vagrant 
 # environmetn
-#.Parameter VmName
-#    This is the name of the Hyper-V source virtual machine, 
-#    the box file and the vagrant box name which is prefixed 
-#    with asmas/
+#.Parameter BoxName
+#    This is the name of the box file and the vagrant box name which is prefixed 
+#    with marvin/
 #.Parameter Comment
 #    This is the path to the folder in which the box will be created
 #    and compressed intermediate files. 
 #.Example
 #	Create a box file from the Hyper-V machine server2022
-# CreateVagrantBox -VmName server2022
+# CreateVagrantBox BoxName server2022
 ##>
 
-param (	[string] $VmName = "ros2humble",
+param (	[string] $BoxName = "ros2humble",
 [string] $Comment = "Update on 2024-02-17",
 [string] $WorkingFolder = "C:\work" 
 )
 
+if (!$env:VAGRANTBOXSHARE)
+{
+    Write-Error "VAGRANTBOXSHARE environment variable is not set. Add the folder share information."
+    Exit 12
+}
 
 
 Import-Module BitsTransfer
 # ======================================================================
 
-$vmName = $VmName
+$vmName = $BoxName
 
 # This is for working on development computer 
 $workingFolder = $WorkingFolder
 # This is for debugging purposes 
 #$publishingFolder = "F:\work\boxregistry"
-$publishingFolder = "\\Zencane\Burmeisters\Vagrant\Boxes"
+$publishingFolder = $env:VAGRANTBOXSHARE
 $comment = $Comment
 # ======================================================================
 
