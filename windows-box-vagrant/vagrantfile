@@ -1,13 +1,22 @@
 Vagrant.configure("2") do |config|
     config.vm.box = "gusztavvargadr/windows-10"
 
-    # Configure the remote powershell ports
-    config.vm.network :forwarded_port, guest: 3389, host: 3389
-    config.vm.network :forwarded_port, guest: 5985, host: 5985, id: "winrm", auto_correct: true
-    config.vm.guest = :windows
-    config.vm.communicator = "winrm"
-    config.vm.boot_timeout = 600
-    config.vm.graceful_halt_timeout = 600
+    # # Configure the remote powershell ports
+    # config.vm.network :forwarded_port, guest: 3389, host: 3389
+    # config.vm.network :forwarded_port, guest: 5985, host: 5985, id: "winrm", auto_correct: true
+    # config.vm.guest = :windows
+    # config.vm.communicator = "winrm"
+    # config.vm.boot_timeout = 600
+    # config.vm.graceful_halt_timeout = 600
+
+    # # The transport used for WinRM communication. 
+    # # Valid settings include: :negotiate, :ssl, and :plaintext. 
+    # # The default is :negotiate.
+    # config.winrm.transport = :plaintext
+    # # Whether to use Basic Authentication. Defaults to false. 
+    # # If set to true you should also use the :plaintext transport setting 
+    # # and the Windows machine must be configured appropriately.
+    # config.winrm.basic_auth_only 
 
     # This is the default network from Hyper-V on a non server Windows Version with NAT
     config.vm.network "public_network", bridge: "Default Switch"
@@ -36,13 +45,14 @@ Vagrant.configure("2") do |config|
      # will work correctly after the reboot
       config.vm.provision "shell", inline: <<-SHELL
       Write-Host "Set Network to Private"
+      # Enable-PSRemoting -Force -SkipNetworkProfileCheck      
       $profiles = Get-NetConnectionProfile
-
       foreach ($profile in $profiles) {
          Write-Host "Setting proile  $profile.InterfaceAlias to Private"
          Set-NetConnectionProfile -InterfaceAlias $profile.InterfaceAlias -NetworkCategory Private
       }
-      Write-Host "Set Network to Privatedone"
+      Get-NetFirewallRule -DisplayGroup 'Network Discovery' | Set-NetFirewallRule -Profile 'Private' -Enabled true
+      Write-Host "Set Network to Private done"
     SHELL
 
     # # Before doing anything, ensure that Windows Updates are installed
