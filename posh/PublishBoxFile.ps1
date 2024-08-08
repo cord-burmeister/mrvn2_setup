@@ -115,10 +115,10 @@ else {
 }
 
 $boxSize = "{0:N2} GB" -f ((Get-ChildItem $workingFolder\$vmName -Recurse -Include "*.box" | Measure-Object -Property Length -Sum -ErrorAction Stop).Sum / 1GB) 
-$vmSize  = "{0:N2} GB" -f ((Get-ChildItem $workingFolder\$vmName -Recurse -Exclude "*.box" | Measure-Object -Property Length -Sum -ErrorAction Stop).Sum / 1GB) 
+#$vmSize  = "{0:N2} GB" -f ((Get-ChildItem $workingFolder\$vmName -Recurse -Exclude "*.box" | Measure-Object -Property Length -Sum -ErrorAction Stop).Sum / 1GB) 
 
-$headerLine    = "| Box name              | Box Size | VM Size  | Version | Date      | Changes |"
-$separatorLine = "|-----------------------|----------|----------|---------|-----------|---------|"
+$headerLine    = "| Box name              | Box Size |  Version | Date      | Changes |"
+$separatorLine = "|-----------------------|----------|----------|-----------|---------|"
 $changeLogFile = [System.IO.Path]::Combine($publishingFolder, "Changelog.md")
 
 $date = Get-Date
@@ -132,7 +132,7 @@ $dateString = $dateString + $date.Year
 
 
 
-$newChangeEntry = "| $vmName          | $boxSize   | $vmSize | $newVersion   | $dateString | $comment |"
+$newChangeEntry = "| $vmName          | $boxSize   | $newVersion   | $dateString | $comment |"
 
 if (Test-Path -Path $changeLogFile)
 {
@@ -147,3 +147,4 @@ else {
     [System.IO.File]::AppendAllText($changeLogFile, $separatorLine + "`n")
     [System.IO.File]::AppendAllText($changeLogFile, $newChangeEntry + "`n")
 }
+

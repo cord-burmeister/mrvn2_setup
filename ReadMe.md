@@ -7,6 +7,7 @@ Some scripts to setup computers and environments to run some ROS 2 projects.
 These bash scripts inf the folder *bash* are for setup certain steps in the environment.
 
 * setup-humble.sh: Setup the distribution *humble* as described by ROS.
+
 * setup-workspace.sh: Setup a ROS workspace for the project.
 
 ## Vagrant environments
@@ -37,3 +38,31 @@ This can be easier iterated;
 ``` -->
 
 ![Workflow with vagrant](doc/vagrant-workflow.png)
+
+### Prepare vagrant workflow
+
+To use a local file share to store the boxes we define a environment variable 
+
+``` cmd
+VAGRANTBOXSHARE
+``` 
+
+System requirements are 
+
+* Configured Hyper-V in Windows 
+* Installed vagrant 
+* Installed 7Zip
+
+
+### Component combinations
+
+We use some combinations for Ubuntu, ROS2 distribution and Gazebo distribution. 
+
+See the table 
+
+| Box Name | Ubuntu distribution | Ros distribution | gazebo Version |
+|----------|---------------------|------------------|----------------|
+| jammy-humble-harmonic | jammy | humble | harmonic |
+| jammy-iron-harmonic | jammy | iron | harmonic |
+| noble-jazzy-harmonic | noble | jazzy | harmonic |
+

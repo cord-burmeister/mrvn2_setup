@@ -1,26 +1,44 @@
-!#/bin/bash
+#!/bin/bash
 
-workspacename=m2_ws
-rosdistribution=humble
+# bash won't source .bashrc from an interactive terminal unless I manually run bash from a terminal:
+# $ bash
+# or manually source it:
+source /home/vagrant/.bashrc
 
-mkdir -p ~/$workspacename/src
-cd ~/$workspacename/src
+workspacename=master3_ws
 
-# Make a sub folder for every component
-git clone https://github.com/cord-burmeister/mrvn2_teleop.git
+# First install required development tools
+sudo apt install python3-vcstool python3-colcon-common-extensions git wget -y
+sudo apt install libgflags-dev -y
+
+# Then create a new workspace and load the git repositories which are required.
+mkdir -p /home/vagrant/$workspacename/src
+cd /home/vagrant/$workspacename/src
+
+wget https://raw.githubusercontent.com/cord-burmeister/master3_nav/main/master3_nav.yaml
+vcs import < master3_nav.yaml
+
 
 # Before building the workspace, you need to resolve the package dependencies. 
 # You may have all the dependencies already, but best practice is to check for 
 # dependencies every time you clone. You wouldn’t want a build to fail after 
 # a long wait only to realize that you have missing dependencies.
 
-cd ~/$workspacename
-sudo rosdep init    
-rosdep install -i --from-path src --rosdistro $rosdistribution -y
+cd /home/vagrant/$workspacename
+sudo rosdep init
+rosdep update    
+echo rosdep install -r -y --from-path src --rosdistro $ROS_DISTRO 
+rosdep install -r -y --from-path src --rosdistro humble
 
-cd ~/$workspacename
-colcon build
+# cd /home/vagrant/$workspacename
+# colcon build
 
-source install/local_setup.bash
 
-echo ros2 run turtlesim turtlesim_node
+# source /home/vagrant/$workspacename/install/setup.bash
+
+ # Add sourcing to your shell startup script
+echo "source /home/vagrant/$workspacename/install/setup.bash" >> /home/vagrant/.bashrc
+echo "cd /home/vagrant/$workspacename" >> /home/vagrant/.bashrc
+
+
+

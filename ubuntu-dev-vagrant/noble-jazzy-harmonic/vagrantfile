@@ -1,0 +1,32 @@
+
+Vagrant.configure("2") do |config|
+    config.vm.box = "marvin/noble-jazzy-harmonic"
+    config.vm.box_url = "file://" + ENV['VAGRANTBOXSHARE'] + "/noble-jazzy-harmonicMetadata.json"
+
+    # This is the default network from Hyper-V on a non server Windows Version with NAT
+    config.vm.network "public_network", bridge: "Default Switch"
+    # setting the hostname 
+    config.vm.hostname = "nohuha"
+    # Disable shared folder, because we do not need it
+    config.vm.synced_folder ".", "/vagrant", disabled: true
+
+    config.ssh.username = "vagrant"    
+    config.ssh.password = "vagrant"    
+
+    # Configure the hardware parameter
+    config.vm.provider "hyperv" do |vm|
+      vm.memory = 4096
+      vm.maxmemory = 8192
+      vm.cpus = 2
+    end
+
+    
+    # Setup the workspace 
+    config.vm.provision "shell", reset: true, privileged: false, path: "../../bash/setup-workspace.sh"
+
+    # compile  the workspace 
+    config.vm.provision "shell", reboot: false, privileged: false, path: "../../bash/compile-workspace.sh"
+
+    
+  end
+  

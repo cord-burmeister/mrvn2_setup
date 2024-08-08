@@ -1,3 +1,10 @@
 ubuntu-box-vagrant/.vagrant/
 windows-box-vagrant/.vagrant/
 windows-dev-vagrant/.vagrant/
+
+ubuntu-box-vagrant/jammy-humble-harmonic/.vagrant/
+ubuntu-box-vagrant/jammy-iron-harmonic/.vagrant/
+ubuntu-box-vagrant/noble-jazzy-harmonic/.vagrant/
+ubuntu-dev-vagrant/jammy-humble-harmonic/.vagrant/
+ubuntu-dev-vagrant/jammy-iron-harmonic/.vagrant/
+ubuntu-dev-vagrant/noble-jazzy-harmonic/.vagrant/

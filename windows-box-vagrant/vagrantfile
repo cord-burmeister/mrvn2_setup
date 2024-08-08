@@ -54,13 +54,22 @@ Vagrant.configure("2") do |config|
       Get-NetFirewallRule -DisplayGroup 'Network Discovery' | Set-NetFirewallRule -Profile 'Private' -Enabled true
       Write-Host "Set Network to Private done"
     SHELL
-
+    
+    
+    
+    
+    
     # # Before doing anything, ensure that Windows Updates are installed
     config.vm.provision "shell", reboot: true, inline: <<-SHELL0
     Install-Module PSWindowsUpdate -Force
     Get-WindowsUpdate -ForceDownload
     Install-WindowsUpdate -ForceInstall
     SHELL0
+
+    # # Before doing anything, ensure that Windows Updates are installed
+    config.vm.provision "shell", reboot: true, inline: <<-SHELLA
+    Set-ExecutionPolicy Bypass -Scope Process -Force; [System.Net.ServicePointManager]::SecurityProtocol = [System.Net.ServicePointManager]::SecurityProtocol -bor 3072; iex ((New-Object System.Net.WebClient).DownloadString('https://community.chocolatey.org/install.ps1'))
+    SHELLA
 
    # Install or upgrade git installation 
    config.vm.provision "shell", inline: <<-SHELL

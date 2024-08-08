@@ -83,6 +83,6 @@ $boxSize = "{0:N2} GB" -f ((Get-ChildItem $WorkingFolder\$BoxName -Recurse -Incl
 #     Remove-Item "$WorkingFolder\Virtual Hard Disks" -Recurse -Force
 # }
 
-Write-Host "Created a box file. Box Size $boxSize. Virtual Mchine Size $vmSize "
+Write-Host "Created a box file. Box Size $boxSize. Virtual Machine Size $vmSize "
 Write-Host "Do add the box manually use:"
 Write-Host vagrant box add --name $FullBoxName "$WorkingFolder\$BoxName\$BoxName.box"

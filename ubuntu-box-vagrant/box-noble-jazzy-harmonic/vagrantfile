@@ -1,11 +1,18 @@
 # Default vagrant file to spin off a ubuntu 22.04 for hyper-v on my windows machine
 Vagrant.configure("2") do |config|
     config.vm.box = "gusztavvargadr/ubuntu-desktop"
+    config.vm.box_version = "2404.0.2407"
     # Try to work without the shared folder to ease the setup process
     config.vm.synced_folder ".", "/vagrant", disabled: true
     config.vm.allow_fstab_modification = false
     # Setting the network to the Hyper V Default Switch with implicit NAT Support
     config.vm.network "public_network", bridge: "Default Switch"
+    # setting the hostname 
+    config.vm.hostname = "box-nohuha"
+
+    # Setting ssh to user name password mode
+    config.ssh.username = "vagrant"    
+    config.ssh.password = "vagrant"    
 
   # Enable provisioning with a shell script. Additional provisioners such as
   # Puppet, Chef, Ansible, Salt, and Docker are also available. Please see the
@@ -30,8 +37,15 @@ Vagrant.configure("2") do |config|
   #   sudo reboot
   # SHELL2
 
-  # External scribt to install ROS distribution
-  config.vm.provision "shell", reboot: true, path: "../bash/setup-humble.sh"
+  # External script to install ROS distribution
+  config.vm.provision "shell", reboot: true, path: "../../bash/setup-jazzy.sh"
+
+  # External script to install gazebo harmonic distribution without the ros package
+  config.vm.provision "shell", reboot: true, path: "../../bash/setup-ros2-gz-harmonic.sh"
+
+  # adding additional developer tools 
+  config.vm.provision "shell", reboot: true, path: "../../bash/setup-development.sh"
+  
   # Setup the workspace
   #config.vm.provision "shell", path: "../bash/setup-workspace.sh"
 end

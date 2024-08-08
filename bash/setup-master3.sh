@@ -1,4 +1,4 @@
-!#/bin/bash
+#!/bin/bash
 
 workspacename=master3_ws
 rosdistribution=humble
@@ -24,5 +24,5 @@ rosdep install -i --from-path src --rosdistro $rosdistribution -y
 cd ~/$workspacename
 colcon build
 
-source install/local_setup.bash
+source ~/$workspacename/install/local_setup.bash
 
