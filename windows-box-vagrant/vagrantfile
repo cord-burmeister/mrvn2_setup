@@ -24,6 +24,9 @@ Vagrant.configure("2") do |config|
     # Disable shared folder, because we do not need it
     config.vm.synced_folder ".", "/vagrant", disabled: true
 
+    # setting the hostname 
+    config.vm.hostname = "box-w10"
+
     # Configure the hardware parameter
     config.vm.provider "hyperv" do |vm|
       vm.memory = 4096
@@ -55,10 +58,6 @@ Vagrant.configure("2") do |config|
       Write-Host "Set Network to Private done"
     SHELL
     
-    
-    
-    
-    
     # # Before doing anything, ensure that Windows Updates are installed
     config.vm.provision "shell", reboot: true, inline: <<-SHELL0
     Install-Module PSWindowsUpdate -Force
@@ -66,7 +65,7 @@ Vagrant.configure("2") do |config|
     Install-WindowsUpdate -ForceInstall
     SHELL0
 
-    # # Before doing anything, ensure that Windows Updates are installed
+    # # Before doing anything, ensure that chocolatey is installed
     config.vm.provision "shell", reboot: true, inline: <<-SHELLA
     Set-ExecutionPolicy Bypass -Scope Process -Force; [System.Net.ServicePointManager]::SecurityProtocol = [System.Net.ServicePointManager]::SecurityProtocol -bor 3072; iex ((New-Object System.Net.WebClient).DownloadString('https://community.chocolatey.org/install.ps1'))
     SHELLA

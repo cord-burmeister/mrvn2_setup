@@ -24,19 +24,30 @@ param (
   [string] $WorkingFolder = "c:\work"
   )
 
+
+  if (!$env:VAGRANTBOXSHARE)
+  {
+      Write-Error "VAGRANTBOXSHARE environment variable is not set. Add the folder share information."
+      Exit 12
+  }
+
 $location = Get-Location
 
 $FullBoxName = "marvin/$BoxName"
+$VmName = "windows-box-vagrant"
 Write-Host "Generate the box with name $FullBoxName from VMs $VmName in folder $WorkingFolder"
 
 Set-Location $PSScriptRoot/../windows-box-vagrant
-& "vagrant destroy -f "
-& "vagrant up" 
+& "C:\Program Files\Vagrant\bin\vagrant.exe" destroy -f 
+& "C:\Program Files\Vagrant\bin\vagrant.exe" up
+& "C:\Program Files\Vagrant\bin\vagrant.exe" halt
 
 Set-Location $location
 
-& ./CreateVagrantBox.ps1
+& ./CreateVagrantBox.ps1 -BoxName $BoxName -PrefixVM $VmName -WorkingFolder $WorkingFolder
+& ./PublishBoxFile.ps1 -BoxName $BoxName -WorkingFolder $WorkingFolder -Comment $Comment 
 
-& ./CreateVagrantBox.ps1
-
-
+# Comment this, when you want the resulting box for debugging purposes. 
+# Set-Location $PSScriptRoot/../ubuntu-box-vagrant/$VmName
+# & "C:\Program Files\Vagrant\bin\vagrant.exe" destroy -f 
+# Set-Location $location
