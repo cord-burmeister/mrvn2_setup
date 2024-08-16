@@ -1,6 +1,25 @@
 Vagrant.configure("2") do |config|
+
+      # Configure the remote powershell ports
+      config.vm.network :forwarded_port, guest: 3389, host: 3389
+      config.vm.network :forwarded_port, guest: 5985, host: 5985, id: "winrm", auto_correct: true
+      config.vm.guest = :windows
+      config.vm.communicator = "winrm"
+      config.vm.boot_timeout = 600
+      config.vm.graceful_halt_timeout = 600
+  
+      # The transport used for WinRM communication. 
+      # Valid settings include: :negotiate, :ssl, and :plaintext. 
+      # The default is :negotiate.
+      config.winrm.transport = :plaintext
+      # Whether to use Basic Authentication. Defaults to false. 
+      # If set to true you should also use the :plaintext transport setting 
+      # and the Windows machine must be configured appropriately.
+      config.winrm.basic_auth_only 
+
     config.vm.box = "marvin/ros2humble"
-    config.vm.box_url = "file:///c://work/ros2humble/ros2humble.box"
+    config.vm.box_url = "file://" + ENV['VAGRANTBOXSHARE'] + "/ros2humbleMetadata.json"
+
 
     # Configure the remote powershell ports
     config.vm.network :forwarded_port, guest: 3389, host: 3389
@@ -11,6 +30,10 @@ Vagrant.configure("2") do |config|
 
     # Disable shared folder, because we do not need it
     config.vm.synced_folder ".", "/vagrant", disabled: true
+
+    # setting the hostname 
+    config.vm.hostname = "dev-w10"
+
 
     # Configure the hardware parameter
     config.vm.provider "hyperv" do |vm|

@@ -19,6 +19,7 @@
 ##>
 
 param (	
+  [string] $Comment = "",  
   [string] $BoxName = "ros2humble",
   [string] $VmName = "",
   [string] $WorkingFolder = "c:\work"
@@ -33,6 +34,14 @@ param (
 
 $location = Get-Location
 
+if ($Comment)
+{
+    $comment = $Comment
+}
+else {
+    $comment = "Generated box on $(Get-Date)"
+}
+
 $FullBoxName = "marvin/$BoxName"
 $VmName = "windows-box-vagrant"
 Write-Host "Generate the box with name $FullBoxName from VMs $VmName in folder $WorkingFolder"
@@ -45,7 +54,7 @@ Set-Location $PSScriptRoot/../windows-box-vagrant
 Set-Location $location
 
 & ./CreateVagrantBox.ps1 -BoxName $BoxName -PrefixVM $VmName -WorkingFolder $WorkingFolder
-& ./PublishBoxFile.ps1 -BoxName $BoxName -WorkingFolder $WorkingFolder -Comment $Comment 
+& ./PublishBoxFile.ps1 -BoxName $BoxName -WorkingFolder $WorkingFolder -Comment $comment 
 
 # Comment this, when you want the resulting box for debugging purposes. 
 # Set-Location $PSScriptRoot/../ubuntu-box-vagrant/$VmName
