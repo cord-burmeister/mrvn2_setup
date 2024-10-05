@@ -17,7 +17,8 @@ cd /home/$USER/$workspacename/src
 
 wget https://raw.githubusercontent.com/cord-burmeister/master3_nav/main/master3_nav.yaml
 vcs import < master3_nav.yaml
-
+wget https://raw.githubusercontent.com/cord-burmeister/master3_bt3/main/master3_bt3.yaml
+vcs import < master3_bt3.yaml
 
 # Before building the workspace, you need to resolve the package dependencies. 
 # You may have all the dependencies already, but best practice is to check for 
