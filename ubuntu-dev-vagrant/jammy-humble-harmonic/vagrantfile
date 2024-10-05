@@ -21,6 +21,9 @@ Vagrant.configure("2") do |config|
       vm.cpus = 4
     end
 
+    # Setup the network to play nicely with windows in the development environment
+    config.vm.provision "shell", reset: true, privileged: false, path: "../../bash/setup-network.sh"
+
     # Setup the workspace 
     config.vm.provision "shell", reset: true, privileged: false, path: "../../bash/setup-workspace.sh"
 
