@@ -29,7 +29,10 @@ sudo apt update -y
 # recommended that you ensure your system is up to date before installing new packages.
 sudo apt upgrade -y
 
-# Desktop Install (Recommended): ROS, RViz, demos, tutorials.
+# See https://www.ros.org/reps/rep-2001.html for matching ros bundle 
+# Important: here we won’t install ros-humble-desktop, we’ll install ros-humble-ros-base, which contains no GUI tools, 
+# just the bare minimum you need to write and execute your ROS2 programs.
+# sudo apt install ros-humble-ros-base
 sudo apt install ros-humble-desktop -y
 
 # Development tools: Compilers and other tools to build ROS packages
@@ -42,5 +45,3 @@ source /opt/ros/humble/setup.bash
  # Add sourcing to your shell startup script
 echo "source /opt/ros/humble/setup.bash" >> /home/$USER/.bashrc
 
-# Installing VS Code 
-# sudo snap install --classic code -y

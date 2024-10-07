@@ -1,0 +1,35 @@
+
+Vagrant.configure("2") do |config|
+    config.vm.box = "marvin/jammy-humble-robot"
+    config.vm.box_url = "file://" + ENV['VAGRANTBOXSHARE'] + "/jammy-humble-robotMetadata.json"
+
+    # This is the default network from Hyper-V on a non server Windows Version with NAT
+    config.vm.network "public_network", bridge: "Default Switch"
+    # setting the hostname 
+    config.vm.hostname = "jahuhabot"
+    
+    # Disable shared folder, because we do not need it
+    config.vm.synced_folder ".", "/vagrant", disabled: true
+
+    config.ssh.username = "vagrant"    
+    config.ssh.password = "vagrant"    
+
+    # Configure the hardware parameter
+    config.vm.provider "hyperv" do |vm|
+      vm.memory = 8192
+      vm.maxmemory = 8192
+      vm.cpus = 4
+    end
+
+    # Setup the network to play nicely with windows in the development environment
+    config.vm.provision "shell", reset: true, privileged: false, path: "../../bash/setup-network.sh"
+
+    # Setup the workspace 
+    # config.vm.provision "shell", reset: true, privileged: false, path: "../../bash/setup-workspace.sh"
+
+    # compile  the workspace 
+    # config.vm.provision "shell", reboot: false, privileged: false, path: "../../bash/compile-workspace.sh"
+
+    
+  end
+  
