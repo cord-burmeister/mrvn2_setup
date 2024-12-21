@@ -42,7 +42,10 @@ sudo apt install gz-harmonic -y
 
 # source /home/vagrant/$workspacename/install/setup.bash
 
- # Add sourcing to your shell startup script
+ # Add some help finding errors in the logging 
+echo "export RCUTILS_COLORIZED_OUTPUT=1" >> /home/$USER/.bashrc 
+
+# Add sourcing to your shell startup script
 echo "source /home/$USER/$workspacename/install/setup.bash" >> /home/$USER/.bashrc
 echo "cd /home/$USER/$workspacename" >> /home/$USER/.bashrc
 
