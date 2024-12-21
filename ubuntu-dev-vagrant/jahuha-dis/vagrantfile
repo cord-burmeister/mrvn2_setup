@@ -1,0 +1,71 @@
+Vagrant.configure("2") do |config|
+  
+  # Define the development machine
+  config.vm.define "configdev" do |configdev|
+    configdev.vm.box = "marvin/jammy-humble-harmonic"
+    configdev.vm.box_url = "file://" + ENV['VAGRANTBOXSHARE'] + "/jammy-humble-harmonicMetadata.json"
+
+    # This is the default network from Hyper-V on a non server Windows Version with NAT
+    configdev.vm.network "public_network", bridge: "Default Switch"
+    # setting the hostname 
+    configdev.vm.hostname = "jahuha-dev2"
+    
+    # Disable shared folder, because we do not need it
+    configdev.vm.synced_folder ".", "/vagrant", disabled: true
+
+    configdev.ssh.username = "vagrant"    
+    configdev.ssh.password = "vagrant"    
+
+    # configdevure the hardware parameter
+    configdev.vm.provider "hyperv" do |vm|
+      vm.memory = 8192
+      vm.maxmemory = 8192
+      vm.cpus = 4      
+    end
+
+    # Setup the network to play nicely with windows in the development environment
+    configdev.vm.provision "shell", reset: true, privileged: false, path: "../../bash/setup-network.sh"
+
+    # Setup the workspace 
+    configdev.vm.provision "shell", reset: true, privileged: false, path: "../../bash/setup-workspace-sim.sh"
+
+    # compile  the workspace 
+    #configdev.vm.provision "shell", reboot: false, privileged: false, path: "../../bash/compile-workspace.sh"
+  end
+
+
+
+  # Define the development machine
+  config.vm.define "configbot" do |configbot|
+    configbot.vm.box = "marvin/jammy-humble-robot"
+    configbot.vm.box_url = "file://" + ENV['VAGRANTBOXSHARE'] + "/jammy-humble-robotMetadata.json"
+
+    # This is the default network from Hyper-V on a non server Windows Version with NAT
+    configbot.vm.network "public_network", bridge: "Default Switch"
+    # setting the hostname 
+    configbot.vm.hostname = "jahuha-bot2"
+    
+    # Disable shared folder, because we do not need it
+    configbot.vm.synced_folder ".", "/vagrant", disabled: true
+
+    configbot.ssh.username = "vagrant"    
+    configbot.ssh.password = "vagrant"    
+
+    # configboture the hardware parameter
+    configbot.vm.provider "hyperv" do |vm|
+      vm.memory = 4098
+      vm.maxmemory = 4098
+      vm.cpus = 2
+    end
+
+    # Setup the network to play nicely with windows in the development environment
+    configbot.vm.provision "shell", reset: true, privileged: false, path: "../../bash/setup-network.sh"
+
+    # Setup the workspace 
+    configbot.vm.provision "shell", reset: true, privileged: false, path: "../../bash/setup-workspace-bot.sh"
+
+    # compile  the workspace 
+    #configbot.vm.provision "shell", reboot: false, privileged: false, path: "../../bash/compile-workspace.sh"
+  end
+end
+  
