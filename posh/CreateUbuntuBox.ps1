@@ -21,8 +21,8 @@
 
 param (	
   [string] $BoxName = "ubuntu-humble",
-  [string] $PrefixVM = "ubuntu-box-vagrant",
-  [string] $Comment = "Update on 2024-02-17",  
+  [string] $VmName = "ubuntu-box-vagrant",
+  [string] $Comment = "",  
   [string] $WorkingFolder = "c:\work"
   )
 
@@ -33,6 +33,14 @@ param (
   }
 $location = Get-Location
 
+if ($Comment)
+{
+    $comment = $Comment
+}
+else {
+    $comment = "Generated box on $(Get-Date)"
+}
+
 $FullBoxName = "marvin/$BoxName"
 Write-Host "Generate the box with name $FullBoxName from VMs $VmName in folder $WorkingFolder"
 
@@ -42,7 +50,7 @@ Set-Location $PSScriptRoot/../ubuntu-box-vagrant
 
 Set-Location $location
 
-& ./CreateVagrantBox.ps1 -BoxName $BoxName -PrefixVM $PrefixVM -WorkingFolder $WorkingFolder
+& ./CreateVagrantBox.ps1 -BoxName $BoxName -PrefixVM $VmName -WorkingFolder $WorkingFolder
 & ./PublishBoxFile.ps1 -BoxName $BoxName -WorkingFolder $WorkingFolder -Comment $Comment 
 
 

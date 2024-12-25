@@ -1,8 +1,8 @@
 # Default vagrant file to spin off a ubuntu 22.04 for hyper-v on my windows machine
 Vagrant.configure("2") do |config|
     # config.vm.box = "gusztavvargadr/ubuntu-server"
-    config.vm.box = "gusztavvargadr/ubuntu-desktop"    
-    config.vm.box_version = "2204.0.2404"
+    config.vm.box = "gusztavvargadr/ubuntu-desktop-2204-lts"    
+    config.vm.box_version = "2204.0.2209"
     # Try to work without the shared folder to ease the setup process
     config.vm.synced_folder ".", "/vagrant", disabled: true
     config.vm.allow_fstab_modification = false
