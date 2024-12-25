@@ -3,6 +3,7 @@ windows-box-vagrant/.vagrant/
 windows-dev-vagrant/.vagrant/
 windows-box-vagrant/box-win11/.vagrant/
 windows-dev-vagrant/win11/.vagrant/
+windows-dev-vagrant/win10/.vagrant/
 
 ubuntu-box-vagrant/box-jammy-humble-harmonic/.vagrant/
 ubuntu-box-vagrant/box-jammy-humble-robot/.vagrant/

@@ -67,7 +67,7 @@ $Utf8NoBomEncoding = New-Object System.Text.UTF8Encoding $False
 [System.IO.File]::WriteAllLines("$WorkingFolder\$VmName\metadata.json", $MyJsonVariable, $Utf8NoBomEncoding)
 
 7z a -r $WorkingFolder\$BoxName\$BoxName.tar $WorkingFolder\$VmName\*.*
-7z a $WorkingFolder\$BoxName\$BoxName.tar.gzip $WorkingFolder\$BoxName\$BoxName.tar
+7z a -mmt9 $WorkingFolder\$BoxName\$BoxName.tar.gzip $WorkingFolder\$BoxName\$BoxName.tar
 Rename-Item $WorkingFolder\$BoxName\$BoxName.tar.gzip $WorkingFolder\$BoxName\$BoxName.box
 Remove-Item $WorkingFolder\$BoxName\$BoxName.tar
 

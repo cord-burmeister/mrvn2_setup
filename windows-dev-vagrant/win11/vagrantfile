@@ -17,8 +17,8 @@ Vagrant.configure("2") do |config|
       # and the Windows machine must be configured appropriately.
       config.winrm.basic_auth_only 
 
-    config.vm.box = "marvin/ros2humble"
-    config.vm.box_url = "file://" + ENV['VAGRANTBOXSHARE'] + "/ros2humbleMetadata.json"
+    config.vm.box = "marvin/win11"
+    config.vm.box_url = "file://" + ENV['VAGRANTBOXSHARE'] + "/win11Metadata.json"
 
 
     # Configure the remote powershell ports
@@ -32,7 +32,7 @@ Vagrant.configure("2") do |config|
     config.vm.synced_folder ".", "/vagrant", disabled: true
 
     # setting the hostname 
-    config.vm.hostname = "dev-w10"
+    config.vm.hostname = "dev-w11"
 
 
     # Configure the hardware parameter
@@ -51,6 +51,23 @@ Vagrant.configure("2") do |config|
     config.vm.provision "shell", inline: <<-SHELL2
     choco upgrade git -y
     SHELL2
+
+    # Install Powershell modules  
+    config.vm.provision "shell", reboot: false, path: "../../posh-provisioning/Setup-PowerShell.ps1"
+
+    # Install VS Code 
+    config.vm.provision "shell", reboot: true, path: "../../posh-provisioning/Setup-VSCode.ps1"
+
+    # Install VS Code Extensions after the installation and reboot
+    config.vm.provision "shell", reboot: true, path: "../../posh-provisioning/Setup-VSCodeExtensions.ps1"
+
+    # Install Windows Terminal  
+    config.vm.provision "shell", reboot: false, path: "../../posh-provisioning/Setup-WindowsTerminal.ps1"
+
+
+
+
+
 
   end
   
