@@ -1,7 +1,8 @@
 # Marvin Ros 2 Setup
 
-Some scripts to setup computers and environments to run some ROS 2 projects.
+Some scripts to setup virtual computers and environments to run some ROS 2 projects and tools.
 
+The basic idea is to prepare virtual machines with different clean environments. 
 
 ## Structure
 
@@ -9,6 +10,7 @@ Some scripts to setup computers and environments to run some ROS 2 projects.
 ├───bash
 ├───doc
 ├───posh
+├───posh-provisioning
 ├───ubuntu-box-vagrant
 │   ├───box-jammy-humble-robot
 │   ├───box-jammy-iron-harmonic
@@ -27,9 +29,12 @@ Some scripts to setup computers and environments to run some ROS 2 projects.
 
 ## Some bash scripts
 
-These bash scripts inf the folder *bash* are for setup certain steps in the environment.
+These bash scripts inf the folder *bash* are for setup certain steps in the ubuntu environment.
 
 * setup-humble.sh: Setup the distribution *humble* as described by ROS.
+* setup-iron.sh: Setup the distribution *iron* as described by ROS.
+* setup-jazzy.sh: Setup the distribution *jazzy* as described by ROS.
+* setup-ros2-gz-harmonic: Setup the gazebo simulation version 8 *harmonic*
 * setup-workspace.sh: Setup a ROS workspace for the project.
 
 ## Vagrant environments
@@ -75,8 +80,7 @@ System requirements are
 * Installed vagrant 
 * Installed 7Zip
 
-
-### Component combinations
+### base box combinations
 
 We use some combinations for Ubuntu, ROS2 distribution and Gazebo distribution. 
 
@@ -98,3 +102,4 @@ The supported scenarios for ubuntu can be found in the *ubuntu-dev-vagrant* fold
 | jammy-humble-harmonic | jammy | humble | harmonic |
 | jammy-iron-harmonic | jammy | iron | harmonic |
 | noble-jazzy-harmonic | noble | jazzy | harmonic |
+
