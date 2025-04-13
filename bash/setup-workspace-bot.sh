@@ -5,7 +5,7 @@
 # or manually source it:
 source /home/$USER/.bashrc
 
-workspacename=master3_ws
+workspacename=m3_ws
 
 # First install required development tools
 sudo apt install python3-vcstool python3-colcon-common-extensions git wget -y
@@ -15,10 +15,8 @@ sudo apt install libgflags-dev -y
 mkdir -p /home/$USER/$workspacename/src
 cd /home/$USER/$workspacename/src
 
-wget https://raw.githubusercontent.com/cord-burmeister/master3_nav/main/master3_nav.yaml
-vcs import < master3_nav.yaml
-wget https://raw.githubusercontent.com/cord-burmeister/master3_bt3/main/master3_bt3.yaml
-vcs import < master3_bt3.yaml
+wget https://raw.githubusercontent.com/cord-burmeister/m3plus_driver/main/m3plus_driver.yaml
+vcs import < m3plus_driver.yaml
 
 # Before building the workspace, you need to resolve the package dependencies. 
 # You may have all the dependencies already, but best practice is to check for 
